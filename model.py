@@ -68,6 +68,11 @@ plt.show()
 print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
+# ROC-AUC score for evaluating binary classifiers
+y_pred_proba = model.predict_proba(X_test)[:, 1]
+roc_auc = roc_auc_score(y_test, y_pred_proba)
+print(f"ROC-AUC Score: {roc_auc:.2f}")
+
 # Feature importance plot
 feature_importances = pd.Series(model.feature_importances_, index=X.columns)
 feature_importances.nlargest(10).plot(kind='barh')
