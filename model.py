@@ -62,7 +62,7 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['No Churn', 'Chu
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.title('Confusion Matrix')
-#plt.show()
+plt.show()
 
 # Classification Report
 print("Classification Report:")
@@ -77,7 +77,7 @@ print(f"ROC-AUC Score: {roc_auc:.2f}")
 feature_importances = pd.Series(model.feature_importances_, index=X.columns)
 feature_importances.nlargest(10).plot(kind='barh')
 plt.title("Feature Importance")
-#plt.show()
+plt.show()
 
 from sklearn.model_selection import GridSearchCV
 
@@ -99,13 +99,10 @@ joblib.dump(model, 'churn_model.pkl')
 # Load model later
 model = joblib.load('churn_model.pkl')
 
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-'''# Countplot for Churn
+# Countplot for Churn
 plt.figure(figsize=(6,4))
 sns.countplot(x='Churn Value ', data=df, palette='coolwarm')
 plt.title('Overall Churn Distribution')
 plt.xlabel('Churn (0 = No, 1 = Yes)')
 plt.ylabel('Count')
-plt.show()'''
+plt.show()
