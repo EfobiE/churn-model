@@ -59,7 +59,7 @@ print(f"Testing set size: {X_test.shape}")
 # Initialize and train the model
 #rfc is a supervised Machine learning algorithm used for classification, regression, and other tasks using decision trees
 model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train , y_train)
+model.fit(X_train.values , y_train.values)
 
 # Get feature importances from the trained RandomForest model
 feature_importances = model.feature_importances_
@@ -73,7 +73,7 @@ important_features = X_train.columns[sorted_indices[:top_n]]
 print("Top Features:", important_features)
 
 # Predict on test data
-y_pred = model.predict(X_test)
+y_pred = model.predict(X_test.values)
 
 # Accuracy
 accuracy = accuracy_score(y_test, y_pred)
