@@ -33,7 +33,14 @@ df[numerical_columns] = scaler.fit_transform(df[numerical_columns])#fit:to compu
 # Define features (X) and target (y)
 X = df.drop('Churn Label ', axis=1)
 X = df.drop('Churn Value ', axis=1)
-#X = df[['Tenure Months ', 'Monthly Charges ',df.columns[27]]] 
+X = df[['Tenure Months ', 'Monthly Charges ','Churn Reason_Competitor offered higher download speeds','Payment Method            _Electronic check          ',
+        'Internet Service _Fiber optic      ','Dependents ', 'CLTV ','Contract       _Two year       ','Churn Reason_Attitude of support person',
+        'Churn Reason_Competitor offered more data','Churn Reason_Competitor made better offer','Churn Reason_Product dissatisfaction',
+       'Churn Reason_Lack of self-service on Website',
+       'Churn Reason_Network reliability',
+       'Churn Reason_Service dissatisfaction', 'Latitude  ']] 
+print("Defining Features:", X.columns)
+#tenure months 28,monthly charges 29,total charges 27,latitude 7, longitude 8, senior citizen 10, Partner 11, paperless billing 24
 y = df['Churn Label ']
 
 # Train-test split
@@ -57,7 +64,7 @@ feature_importances = model.feature_importances_
 
 # Sort features by importance
 sorted_indices = np.argsort(feature_importances)[::-1]
-top_n = 20  # Keep the top 20 features
+top_n = 25  # Keep the top 25 features
 
 # Select the most important features
 important_features = X_train.columns[sorted_indices[:top_n]]
