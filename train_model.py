@@ -12,8 +12,6 @@ df = pd.read_csv('Telco_customer_churn.csv',encoding='utf-8')
 
 # Quick overview of the dataset
 print(df.head())
-print(df.describe())  # Summary statistics
-
 
 # Label Encoding for binary columns
 label_encoder = LabelEncoder()#Encode(number) target labels with value between 0 and n_classes-1.
@@ -33,15 +31,16 @@ df[numerical_columns] = scaler.fit_transform(df[numerical_columns])#fit:to compu
 #transform:to perform scaling using mean and std dev calculated in fit.
 
 # Define features (X) and target (y)
-#X = df.drop('Churn Label ', axis=1)
-X = df[['Tenure Months ', 'Monthly Charges ',df.columns[27]]] 
+X = df.drop('Churn Label ', axis=1)
+X = df.drop('Churn Value ', axis=1)
+#X = df[['Tenure Months ', 'Monthly Charges ',df.columns[27]]] 
 y = df['Churn Label ']
 
 # Train-test split
 #test data: a subset of the training dataset that is utilized to give an accurate evaluation of a final model fit
 #default, 25% of our data is test set and 75% data goes into training tests. in this case 20% of data is test set
 #random_state acts like a numpy seed, used for data reproducibility
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 print(f"Training set size: {X_train.shape}")
 print(f"Testing set size: {X_test.shape}")
@@ -50,6 +49,26 @@ print(f"Testing set size: {X_test.shape}")
 # Initialize and train the model
 #rfc is a supervised Machine learning algorithm used for classification, regression, and other tasks using decision trees
 model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train , y_train)
+#fix #2  here
+
+# Get feature importances from the trained RandomForest model
+feature_importances = model.feature_importances_
+
+# Sort features by importance
+sorted_indices = np.argsort(feature_importances)[::-1]
+top_n = 20  # Keep the top 20 features
+
+# Select the most important features
+important_features = X_train.columns[sorted_indices[:top_n]]
+print("Top Features:", important_features)
+
+#fix#2 ends here
+# Define features (X) and target (y)
+X = df[important_features] 
+y = df['Churn Label ']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
 model.fit(X_train , y_train)
 
 # Predict on test data
@@ -65,8 +84,8 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['No Churn', 'Chu
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.title('Confusion Matrix')
+plt.savefig("figures/confusion_matrix.png")
 plt.show()
-
 # Classification Report
 print("Classification Report:")
 print(classification_report(y_test, y_pred))
@@ -80,6 +99,7 @@ print(f"ROC-AUC Score: {roc_auc:.2f}")
 feature_importances = pd.Series(model.feature_importances_, index=X.columns)
 feature_importances.nlargest(10).plot(kind='barh')
 plt.title("Feature Importance")
+plt.savefig("figures/feature_importance.png")
 plt.show()
 
 from sklearn.model_selection import GridSearchCV

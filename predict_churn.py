@@ -6,6 +6,12 @@ df = pd.read_csv('Telco_customer_churn.csv',encoding='utf-8')
 model = joblib.load('churn_model.pkl')
 scaler = joblib.load('scaler.pkl')
 
+# Define the correct feature columns (must match the training data)
+feature_columns = ['Tenure Months ', 'Monthly Charges ', df.columns[27]]
+
+# Example new customer data
+new_customer = pd.DataFrame([[2, 40.0, 200.0]], columns=feature_columns)
+
 #Prediction
 tenure = 2
 monthly_charges = 40.00
