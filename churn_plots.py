@@ -10,13 +10,17 @@ import seaborn as sns
 # Load dataset
 df = pd.read_csv('Telco_customer_churn.csv',encoding='utf-8')
 
+#The folder to save plots
+sf = "plots"
+
 # Countplot for Churn
 plt.figure(figsize=(6,4))
 sns.countplot(x='Churn Value ', data=df, palette='coolwarm')
 plt.title('Overall Churn Distribution')
 plt.xlabel('Churn (0 = No, 1 = Yes)')
 plt.ylabel('Count')
-plt.show()
+plt.savefig(sf+"/Overall Churn Distribution.png")
+plt.close()
 
 #Churn by Gender
 plt.figure(figsize=(6,4))
@@ -25,7 +29,8 @@ plt.title('Churn Rate by Gender')
 plt.xlabel('Gender')
 plt.ylabel('Count')
 plt.legend(title="Churn", labels=["No", "Yes"])
-plt.show()
+plt.savefig(sf+"/Churn Rate by Gender.png")
+plt.close()
 
 #Churn by Contract Type
 plt.figure(figsize=(8,5))
@@ -34,7 +39,8 @@ plt.title('Churn by Contract Type')
 plt.xlabel('Contract Type')
 plt.ylabel('Count')
 plt.legend(title="Churn", labels=["No", "Yes"])
-plt.show()
+plt.savefig(sf+"/Churn by Contract Type.png")
+plt.close()
 
 #Churn by Monthly Charges
 plt.figure(figsize=(8,5))
@@ -42,7 +48,8 @@ sns.boxplot(x='Churn Value ', y='Monthly Charges ', data=df, palette='coolwarm')
 plt.title('Churn by Monthly Charges')
 plt.xlabel('Churn (0 = No, 1 = Yes)')
 plt.ylabel('Monthly Charges')
-plt.show()
+plt.savefig(sf+"/Churn by Monthly Charges.png")
+plt.close()
 
 #Churn by Tenure
 plt.figure(figsize=(8,5))
@@ -52,7 +59,8 @@ plt.title('Tenure Distribution (Churned vs. Stayed)')
 plt.xlabel('Tenure (Months)')
 plt.ylabel('Count')
 plt.legend()
-plt.show()
+plt.savefig(sf+"/Tenure Distribution.png")
+plt.close()
 
 #Churn by IST
 plt.figure(figsize=(8,5))
@@ -61,14 +69,16 @@ plt.title('Churn by Internet Service Type')
 plt.xlabel('Internet Service Type')
 plt.ylabel('Count')
 plt.legend(title="Churn", labels=["No", "Yes"])
-plt.show()
+plt.savefig(sf+"/Churn by Internet Service Type.png")
+plt.close()
 
 #Chun by Payment Method
-plt.figure(figsize=(8,5))
+plt.figure(figsize=(10,15))
 sns.countplot(x='Payment Method            ', hue='Churn Value ', data=df, palette='coolwarm')
-plt.xticks(rotation=45)
+plt.xticks(rotation=15)
 plt.title('Churn by Payment Method')
 plt.xlabel('Payment Method')
 plt.ylabel('Count')
 plt.legend(title="Churn", labels=["No", "Yes"])
-plt.show()
+plt.savefig(sf+"/Churn by Payment Method.png")
+plt.close()
